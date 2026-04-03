@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mail_template_dsr_completed" model="mail.template">
+            <field name="name">GDPR: DSR Completed notification</field>
+            <field name="model_id" ref="model_gdpr_request"/>
+            <field name="subject">Your data request {{ object.name }} has been completed</field>
+            <field name="email_to">{{ object.partner_id.email }}</field>
+            <field name="body_html"><![CDATA[
+<p>Dear {{ object.partner_id.name }},</p>
+<p>We are writing to confirm that your data subject request
+<strong>{{ object.name }}</strong> ({{ object.request_type }}) has been completed.</p>
+{% if object.request_type == 'access' or object.request_type == 'portability' %}
+<p>Your data export is attached to this message.</p>
+{% elif object.request_type == 'erasure' %}
+<p>Your personal data has been erased from our systems as requested.</p>
+{% endif %}
+<p>If you have any questions, please contact our Data Protection Officer.</p>
+<p>Kind regards,<br/>{{ object.company_id.name }}</p>
+            ]]></field>
+            <field name="auto_delete">True</field>
+        </record>
+
+        <record id="mail_template_breach_internal" model="mail.template">
+            <field name="name">GDPR: Breach internal alert</field>
+            <field name="model_id" ref="model_gdpr_breach"/>
+            <field name="subject">URGENT: Data breach reported — {{ object.name }}</field>
+            <field name="body_html"><![CDATA[
+<p><strong>A data breach has been reported and requires immediate attention.</strong></p>
+<table>
+<tr><td><strong>Reference:</strong></td><td>{{ object.name }}</td></tr>
+<tr><td><strong>Discovered:</strong></td><td>{{ object.date_discovered }}</td></tr>
+<tr><td><strong>72-hour DPA deadline:</strong></td><td>{{ object.date_72h_deadline }}</td></tr>
+<tr><td><strong>Severity:</strong></td><td>{{ object.severity }}</td></tr>
+<tr><td><strong>Type:</strong></td><td>{{ object.breach_type }}</td></tr>
+</table>
+<p>Please log in to Odoo and review this breach immediately.</p>
+            ]]></field>
+            <field name="auto_delete">True</field>
+        </record>
+
+        <record id="sequence_gdpr_request" model="ir.sequence">
+            <field name="name">GDPR Data Subject Request</field>
+            <field name="code">gdpr.request</field>
+            <field name="prefix">DSR/%(year)s/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="sequence_gdpr_breach" model="ir.sequence">
+            <field name="name">GDPR Breach</field>
+            <field name="code">gdpr.breach</field>
+            <field name="prefix">BREACH/%(year)s/</field>
+            <field name="padding">3</field>
+        </record>
+
+    </data>
+</odoo>

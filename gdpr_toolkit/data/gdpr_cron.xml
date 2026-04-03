@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="cron_gdpr_dsr_sla_alerts" model="ir.cron">
+            <field name="name">GDPR: DSR SLA deadline alerts</field>
+            <field name="model_id" ref="model_gdpr_request"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_dsr_sla_alerts()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_gdpr_retention_rules" model="ir.cron">
+            <field name="name">GDPR: Run retention rules</field>
+            <field name="model_id" ref="model_gdpr_retention_rule"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_run_all_retention_rules()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_gdpr_breach_alerts" model="ir.cron">
+            <field name="name">GDPR: Breach 72-hour deadline alerts</field>
+            <field name="model_id" ref="model_gdpr_breach"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_breach_deadline_alerts()</field>
+            <field name="interval_number">2</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_gdpr_expire_consents" model="ir.cron">
+            <field name="name">GDPR: Expire outdated consents</field>
+            <field name="model_id" ref="model_gdpr_consent"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_expire_consents()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

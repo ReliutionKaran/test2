@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="module_gdpr_toolkit" model="ir.module.category">
+            <field name="name">GDPR Compliance</field>
+            <field name="description">GDPR Compliance Toolkit access groups</field>
+            <field name="sequence">100</field>
+        </record>
+
+        <!-- Auditor: read-only access to all GDPR records -->
+        <record id="group_gdpr_auditor" model="res.groups">
+            <field name="name">Auditor (read-only)</field>
+            <field name="category_id" ref="module_gdpr_toolkit"/>
+        </record>
+
+        <!-- DPO Manager: full access -->
+        <record id="group_gdpr_manager" model="res.groups">
+            <field name="name">DPO / Manager</field>
+            <field name="category_id" ref="module_gdpr_toolkit"/>
+            <field name="implied_ids" eval="[(4, ref('group_gdpr_auditor'))]"/>
+        </record>
+
+        <!-- Admin: manage rules and settings -->
+        <record id="group_gdpr_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="module_gdpr_toolkit"/>
+            <field name="implied_ids" eval="[(4, ref('group_gdpr_manager'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>

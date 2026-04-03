@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_gdpr_register_list" model="ir.ui.view">
+        <field name="name">gdpr.processing.register.list</field>
+        <field name="model">gdpr.processing.register</field>
+        <field name="arch" type="xml">
+            <list string="Processing register (Art. 30)">
+                <field name="name"/>
+                <field name="purpose" optional="show"/>
+                <field name="legal_basis" widget="badge"
+                    decoration-success="legal_basis in ['contract','legal_obligation']"
+                    decoration-info="legal_basis == 'consent'"
+                    decoration-warning="legal_basis == 'legitimate_interest'"/>
+                <field name="data_subjects"/>
+                <field name="special_category" widget="boolean_toggle"/>
+                <field name="retention_period"/>
+                <field name="date_last_reviewed"/>
+                <field name="state" widget="badge"
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'active'"
+                    decoration-muted="state == 'discontinued'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gdpr_register_form" model="ir.ui.view">
+        <field name="name">gdpr.processing.register.form</field>
+        <field name="model">gdpr.processing.register</field>
+        <field name="arch" type="xml">
+            <form string="Processing activity (Art. 30)">
+                <header>
+                    <button name="action_activate" string="Activate"
+                        type="object" class="btn-primary"
+                        invisible="state != 'draft'"/>
+                    <button name="action_discontinue" string="Discontinue"
+                        type="object"
+                        invisible="state != 'active'"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,active,discontinued"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Activity">
+                            <field name="name"/>
+                            <field name="purpose"/>
+                            <field name="legal_basis"/>
+                            <field name="legitimate_interest_detail"
+                                invisible="legal_basis != 'legitimate_interest'"
+                                placeholder="Document the legitimate interest and balancing test..."/>
+                        </group>
+                        <group string="Data &amp; subjects">
+                            <field name="data_categories" widget="many2many_tags"/>
+                            <field name="data_subjects"/>
+                            <field name="special_category" widget="boolean_toggle"/>
+                            <field name="special_category_basis"
+                                invisible="not special_category"
+                                placeholder="Art. 9 legal basis..."/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Recipients &amp; transfers">
+                            <group>
+                                <field name="recipients" placeholder="Who receives this data (processors, third parties)..."/>
+                                <field name="third_country_transfers" widget="boolean_toggle"/>
+                                <field name="third_country_detail"
+                                    invisible="not third_country_transfers"
+                                    placeholder="SCCs, Adequacy decision, BCRs..."/>
+                            </group>
+                        </page>
+                        <page string="Retention &amp; security">
+                            <group>
+                                <field name="retention_period" placeholder="e.g. 3 years after contract end"/>
+                                <field name="retention_justification"/>
+                                <field name="security_measures"
+                                    placeholder="e.g. TLS encryption, role-based access, pseudonymisation..."/>
+                                <field name="system_location"
+                                    placeholder="e.g. Odoo CRM module, AWS S3 bucket"/>
+                            </group>
+                        </page>
+                        <page string="Controller / DPO">
+                            <group>
+                                <field name="controller_name"/>
+                                <field name="processor_names"/>
+                                <field name="dpo_name"/>
+                                <field name="dpo_contact"/>
+                            </group>
+                        </page>
+                        <page string="Review">
+                            <group>
+                                <field name="date_created"/>
+                                <field name="date_last_reviewed"/>
+                                <field name="review_frequency"/>
+                                <field name="notes"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_gdpr_register" model="ir.actions.act_window">
+        <field name="name">Processing register</field>
+        <field name="res_model">gdpr.processing.register</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active_state': 1}</field>
+    </record>
+
+</odoo>

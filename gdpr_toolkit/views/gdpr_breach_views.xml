@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_gdpr_breach_list" model="ir.ui.view">
+        <field name="name">gdpr.breach.list</field>
+        <field name="model">gdpr.breach</field>
+        <field name="arch" type="xml">
+            <list string="Data breaches"
+                decoration-danger="deadline_breached and state not in ['dpa_notified','closed','not_notifiable']"
+                decoration-warning="hours_remaining &lt; 12 and hours_remaining &gt;= 0 and state not in ['dpa_notified','closed','not_notifiable']">
+                <field name="name"/>
+                <field name="date_discovered"/>
+                <field name="date_72h_deadline"/>
+                <field name="hours_remaining" string="Hours left"/>
+                <field name="severity" widget="badge"
+                    decoration-danger="severity in ['high','critical']"
+                    decoration-warning="severity == 'medium'"
+                    decoration-info="severity == 'low'"/>
+                <field name="breach_type"/>
+                <field name="approx_individuals"/>
+                <field name="deadline_breached" invisible="1"/>
+                <field name="state" widget="badge"
+                    decoration-warning="state == 'assessing'"
+                    decoration-danger="state == 'notifiable'"
+                    decoration-success="state in ['dpa_notified','closed']"
+                    decoration-info="state == 'not_notifiable'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gdpr_breach_form" model="ir.ui.view">
+        <field name="name">gdpr.breach.form</field>
+        <field name="model">gdpr.breach</field>
+        <field name="arch" type="xml">
+            <form string="Data breach">
+                <header>
+                    <button name="action_mark_notifiable" string="Mark as notifiable"
+                        type="object" class="btn-danger"
+                        invisible="state != 'assessing'"/>
+                    <button name="action_mark_not_notifiable" string="Not notifiable"
+                        type="object"
+                        invisible="state != 'assessing'"/>
+                    <button name="action_dpa_notified" string="DPA notified"
+                        type="object" class="btn-success"
+                        invisible="state != 'notifiable'"/>
+                    <button name="action_close" string="Close"
+                        type="object"
+                        invisible="state not in ['dpa_notified','not_notifiable']"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="assessing,notifiable,dpa_notified,closed"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-danger" role="alert"
+                        invisible="not deadline_breached or state in ['dpa_notified','closed','not_notifiable']">
+                        72-HOUR DEADLINE BREACHED. DPA notification is overdue.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                        invisible="hours_remaining &gt; 12 or hours_remaining &lt;= 0 or state in ['dpa_notified','closed','not_notifiable']">
+                        URGENT: Only <field name="hours_remaining" readonly="1"/> hours until DPA notification deadline.
+                    </div>
+                    <group>
+                        <group string="Breach details">
+                            <field name="name" readonly="1"/>
+                            <field name="date_discovered"/>
+                            <field name="date_72h_deadline" readonly="1"/>
+                            <field name="hours_remaining" readonly="1" string="Hours remaining"/>
+                            <field name="severity"/>
+                            <field name="breach_type"/>
+                        </group>
+                        <group string="Scope">
+                            <field name="data_categories" widget="many2many_tags"/>
+                            <field name="approx_individuals"/>
+                            <field name="approx_records"/>
+                            <field name="special_category" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description" placeholder="Describe the nature of the breach..."/>
+                            <field name="likely_consequences" placeholder="Likely consequences for individuals..."/>
+                            <field name="measures_taken" placeholder="Measures taken or proposed..."/>
+                        </page>
+                        <page string="DPA notification">
+                            <group>
+                                <field name="controller_name"/>
+                                <field name="dpo_name"/>
+                                <field name="dpo_email"/>
+                                <field name="dpa_reference"/>
+                                <field name="date_dpa_notified"/>
+                                <field name="individuals_notified" widget="boolean_toggle"/>
+                                <field name="date_individuals_notified" invisible="not individuals_notified"/>
+                            </group>
+                        </page>
+                        <page string="Internal investigation">
+                            <field name="internal_report"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_gdpr_breach" model="ir.actions.act_window">
+        <field name="name">Data breaches</field>
+        <field name="res_model">gdpr.breach</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_gdpr_data_category" model="ir.actions.act_window">
+        <field name="name">Data categories</field>
+        <field name="res_model">gdpr.data.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

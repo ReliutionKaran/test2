@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_gdpr_consent_auditor,gdpr.consent.auditor,model_gdpr_consent,group_gdpr_auditor,1,0,0,0
+access_gdpr_consent_manager,gdpr.consent.manager,model_gdpr_consent,group_gdpr_manager,1,1,1,1
+access_gdpr_request_auditor,gdpr.request.auditor,model_gdpr_request,group_gdpr_auditor,1,0,0,0
+access_gdpr_request_manager,gdpr.request.manager,model_gdpr_request,group_gdpr_manager,1,1,1,1
+access_gdpr_breach_auditor,gdpr.breach.auditor,model_gdpr_breach,group_gdpr_auditor,1,0,0,0
+access_gdpr_breach_manager,gdpr.breach.manager,model_gdpr_breach,group_gdpr_manager,1,1,1,1
+access_gdpr_retention_auditor,gdpr.retention.rule.auditor,model_gdpr_retention_rule,group_gdpr_auditor,1,0,0,0
+access_gdpr_retention_admin,gdpr.retention.rule.admin,model_gdpr_retention_rule,group_gdpr_admin,1,1,1,1
+access_gdpr_audit_log_auditor,gdpr.audit.log.auditor,model_gdpr_audit_log,group_gdpr_auditor,1,0,0,0
+access_gdpr_audit_log_manager,gdpr.audit.log.manager,model_gdpr_audit_log,group_gdpr_manager,1,0,1,0
+access_gdpr_register_auditor,gdpr.processing.register.auditor,model_gdpr_processing_register,group_gdpr_auditor,1,0,0,0
+access_gdpr_register_manager,gdpr.processing.register.manager,model_gdpr_processing_register,group_gdpr_manager,1,1,1,1
+access_gdpr_data_category_auditor,gdpr.data.category.auditor,model_gdpr_data_category,group_gdpr_auditor,1,0,0,0
+access_gdpr_data_category_manager,gdpr.data.category.manager,model_gdpr_data_category,group_gdpr_manager,1,1,1,1

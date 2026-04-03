@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_gdpr_register_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>GDPR Article 30 — Record of Processing Activities</h2>
+                    <p class="text-muted">
+                        Generated: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %B %Y')"/> |
+                        Company: <t t-esc="company.name"/>
+                    </p>
+                    <p class="small">
+                        This document constitutes the Record of Processing Activities as required by
+                        Article 30 of Regulation (EU) 2016/679 (GDPR).
+                    </p>
+
+                    <t t-foreach="docs" t-as="rec">
+                        <div class="mt-4 mb-4" style="border-top: 2px solid #333; padding-top: 12px;">
+                            <h4><t t-esc="rec.name"/>
+                                <span class="badge" t-attf-style="background:#6c757d;color:white;font-size:11px;margin-left:8px;">
+                                    <t t-esc="rec.state"/>
+                                </span>
+                            </h4>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <th style="width:35%;background:#f8f9fa;">Purpose</th>
+                                    <td><t t-esc="rec.purpose"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="background:#f8f9fa;">Legal basis</th>
+                                    <td><t t-esc="rec.legal_basis"/>
+                                        <t t-if="rec.legitimate_interest_detail">
+                                            <br/><small><t t-esc="rec.legitimate_interest_detail"/></small>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="background:#f8f9fa;">Data subjects</th>
+                                    <td><t t-esc="rec.data_subjects or '—'"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="background:#f8f9fa;">Data categories</th>
+                                    <td>
+                                        <t t-foreach="rec.data_categories" t-as="cat">
+                                            <span><t t-esc="cat.name"/><t t-if="not cat_last">, </t></span>
+                                        </t>
+                                        <t t-if="not rec.data_categories">—</t>
+                                    </td>
+                                </tr>
+                                <tr t-if="rec.special_category">
+                                    <th style="background:#fff3cd;">Special category data</th>
+                                    <td><t t-esc="rec.special_category_basis or 'See Art. 9'"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="background:#f8f9fa;">Recipients</th>
+                                    <td><t t-esc="rec.recipients or '—'"/></td>
+                                </tr>
+                                <tr t-if="rec.third_country_transfers">
+                                    <th style="background:#f8f9fa;">Third country transfers</th>
+                                    <td><t t-esc="rec.third_country_detail or 'Yes — safeguards pending documentation'"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="background:#f8f9fa;">Retention period</th>
+                                    <td><t t-esc="rec.retention_period or '—'"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="background:#f8f9fa;">Security measures</th>
+                                    <td><t t-esc="rec.security_measures or '—'"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="background:#f8f9fa;">System / location</th>
+                                    <td><t t-esc="rec.system_location or '—'"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="background:#f8f9fa;">Controller</th>
+                                    <td><t t-esc="rec.controller_name or company.name"/></td>
+                                </tr>
+                                <tr t-if="rec.dpo_name">
+                                    <th style="background:#f8f9fa;">DPO</th>
+                                    <td><t t-esc="rec.dpo_name"/> — <t t-esc="rec.dpo_contact or ''"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="background:#f8f9fa;">Last reviewed</th>
+                                    <td><t t-esc="rec.date_last_reviewed or '—'"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+
+                    <p class="mt-4 text-muted small">
+                        Total processing activities: <t t-esc="len(docs)"/> |
+                        Document generated automatically from Odoo GDPR Compliance Toolkit
+                    </p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_gdpr_register" model="ir.actions.report">
+        <field name="name">GDPR Processing Register (Art. 30)</field>
+        <field name="model">gdpr.processing.register</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gdpr_toolkit.report_gdpr_register_document</field>
+        <field name="report_file">gdpr_toolkit.report_gdpr_register_document</field>
+        <field name="print_report_name">'GDPR Processing Register - %s' % (context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d'))</field>
+        <field name="binding_model_id" ref="model_gdpr_processing_register"/>
+        <field name="binding_type">report</field>
+        <field name="groups_id" eval="[(4, ref('group_gdpr_auditor'))]"/>
+    </record>
+
+</odoo>
