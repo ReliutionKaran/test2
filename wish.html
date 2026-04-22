@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Heartfelt Wish - Happy Birthday Dhiarya</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="memories.html">Memories</a>
+        <a href="wish.html" class="active">The Wish</a>
+    </nav>
+
+    <main class="hero-section">
+        <div class="glass-container wish-container" style="padding: 4rem; border: 1px solid rgba(255,255,255,0.1);">
+            <h1 class="title" style="font-size: 3rem; margin-bottom: 2rem; cursor: pointer;" onclick="celebrate()">My Message to You</h1>
+            <div id="typing-container" class="typing-text" style="font-weight: 300; letter-spacing: 0.5px;"></div>
+            <div id="final-wish" style="display: none; margin-top: 3rem; animation: fadeInUp 1.2s ease both;">
+                <h2 style="font-size: 3.5rem; color: #fff; text-shadow: 0 0 20px rgba(168, 85, 247, 0.5); margin-bottom: 1rem;">Happy Birthday, Dhiarya!</h2>
+                <p style="font-size: 1.2rem; opacity: 0.8; font-style: italic;">"Every moment with you is a gift I cherish."</p>
+                <div style="margin-top: 4rem;">
+                    <a href="marriage.html" class="cta-button" style="box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);">Click for Magic ✨</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <canvas id="confetti"></canvas>
+    <script src="script.js"></script>
+    <script>
+        const text = "Dearest Dhiarya, \n\nOn this special day, I wanted to take a moment to tell you how much you mean to me. You are my rock, my sunshine, and my greatest adventure. \n\nWatching you grow and achieve your dreams is one of my greatest joys. May this year bring you as much happiness as you bring into my life every single day. \n\nI love you more than words can say.";
+        
+        let index = 0;
+        const container = document.getElementById('typing-container');
+        const finalSection = document.getElementById('final-wish');
+
+        function type() {
+            if (index < text.length) {
+                container.innerHTML += text.charAt(index) === '\n' ? '<br>' : text.charAt(index);
+                index++;
+                setTimeout(type, 50);
+            } else {
+                finalSection.style.display = 'block';
+            }
+        }
+
+        window.onload = () => {
+            setTimeout(type, 1000);
+        };
+    </script>
+</body>
+</html>

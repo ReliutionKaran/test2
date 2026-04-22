@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love & Future - Happy Birthday Dhiarya</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .emoji-float {
+            font-size: 3rem;
+            animation: bounce 3s ease-in-out infinite;
+            display: inline-block;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        .love-paragraph {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 2rem auto;
+            color: #fff;
+            font-weight: 300;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="memories.html">Memories</a>
+        <a href="wish.html">The Wish</a>
+    </nav>
+
+    <main class="hero-section">
+        <div class="glass-container" style="padding: 4rem; max-width: 900px;">
+            <div style="margin-bottom: 2rem;">
+                <span class="emoji-float">🧸</span>
+                <span class="emoji-float" style="animation-delay: 0.5s;">💍</span>
+                <span class="emoji-float" style="animation-delay: 1s;">❤️</span>
+                <span class="emoji-float" style="animation-delay: 1.5s;">🧸</span>
+            </div>
+            
+            <h1 class="title" style="font-size: 3.5rem;">To Our Forever</h1>
+            
+            <div style="margin: 2rem auto; width: 100%; max-width: 500px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <img src="marriage_hero.png" alt="Love and Marriage" style="width: 100%; display: block;">
+            </div>
+
+            <p class="love-paragraph">
+                Dhiarya, as we celebrate your birthday today, my heart is full of dreams for our future together. 
+                I look forward to the day we walk down the aisle and start our life as one. 
+                You are my soulmate, my partner in every sense, and my greatest love. 
+                Our journey has just begun, and I promise to love you more with every passing day, 
+                through every joy and every challenge. You are my forever.
+            </p>
+
+            <div style="margin-top: 3rem;">
+                <a href="index.html" class="cta-button">Back to Home</a>
+            </div>
+        </div>
+    </main>
+
+    <canvas id="confetti"></canvas>
+    <script src="script.js"></script>
+    <script>
+        // Trigger magic on page load
+        window.onload = () => {
+             setTimeout(() => {
+                if(window.celebrate) window.celebrate();
+             }, 1000);
+        };
+    </script>
+</body>
+</html>
